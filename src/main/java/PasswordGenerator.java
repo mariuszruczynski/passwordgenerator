@@ -19,7 +19,8 @@ public class PasswordGenerator extends HttpServlet {
 
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws
+            ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         lenght = Integer.valueOf(request.getParameter("passSize"));
@@ -32,12 +33,28 @@ public class PasswordGenerator extends HttpServlet {
             }
         }
 
-            out.println("<center><h1>Twoje hasło: " + result + "</h1></center>");
-            result = "";
-            out.println("");
-            out.println("");
-            out.println("");
-            out.println("<a href=\"index.jsp\">back menu</a>");
+        if (request.getParameter("passKind").equals("lettersnumbers")) {
+            String dic = letters + LETTERS_CAPS + numbers;
+            for (int i = 0; i < lenght; i++) {
+                int index = random.nextInt(dic.length());
+                result += dic.charAt(index);
+            }
+        }
+        if (request.getParameter("passKind").equals("lettersnumberschars")) {
+            String dic = letters + LETTERS_CAPS + numbers + specialChar;
+            for (int i = 0; i < lenght; i++) {
+                int index = random.nextInt(dic.length());
+                result += dic.charAt(index);
+            }
+        }
+
+
+        out.println("<center><h1>Twoje hasło: " + result + "</h1></center>");
+        result = "";
+        out.println("");
+        out.println("");
+        out.println("");
+        out.println("<a href=\"index.jsp\">back menu</a>");
 
 
     }
